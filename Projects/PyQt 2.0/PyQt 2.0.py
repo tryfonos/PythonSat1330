@@ -2,5 +2,6 @@
 # https://docs.google.com/presentation/d/1yKphcke3fU9ngtN5ob5EMkL-21DzqxBD5uNaZNJwhWo/edit?usp=sharing
 #calculator
 
-
-print("Hello")
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QApplication,QMainWindow, QWidget, QLabel, QLineEdit
+import sys
