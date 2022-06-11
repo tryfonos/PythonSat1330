@@ -20,6 +20,7 @@ class Calculator(QMainWindow):
         self.minusBtn       = self.CreateButton("-",100,175,self.Minus)
         self.multiplyBtn    = self.CreateButton("*",100,200,self.Multiply)
         self.divideBtn      = self.CreateButton("/",100,225,self.Divide)
+        self.raiseToPower   = self.CreateButton("^",100,250,self.RaiseToPower)
         # resetting of start values
         self.a = 0                                                             
         self.b = 0
@@ -58,6 +59,10 @@ class Calculator(QMainWindow):
     def UpdateOutput(self):   
         self.resultField.setText("Result : " + str(self.result))
 
+    def RaiseToPower(self):
+        self.UpdateInput()
+        self.result =  self.a ** self.b
+        self.UpdateOutput()
     def Plus(self):
         self.UpdateInput()
         self.result =  self.a + self.b
