@@ -1,89 +1,120 @@
-#pyqt 1.0 
-# https://docs.google.com/presentation/d/1yKphcke3fU9ngtN5ob5EMkL-21DzqxBD5uNaZNJwhWo/edit?usp=sharing
-#calculator
-
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication,QMainWindow, QWidget, QLabel, QLineEdit
 import sys
 
-class Calculator(QMainWindow):
-    def __init__ (self):
-        super(Calculator,self).__init__()                                         # innit super class
-        self.setGeometry(200,200,300,300)                                       # size of window
-        self.setWindowTitle("Calculator")
-        # input fields
-        self.aField         = self.CreateInputField("a:",100,25)
-        self.bField         = self.CreateInputField("b:",100,50)
-        self.resultField    = self.CreateLabel("Result:",50,100)
-        # Math operations buttons
-        self.plusBtn        = self.CreateButton("+",100,150,self.Plus)
-        self.minusBtn       = self.CreateButton("-",100,175,self.Minus)
-        self.multiplyBtn    = self.CreateButton("*",100,200,self.Multiply)
-        self.divideBtn      = self.CreateButton("/",100,225,self.Divide)
-        self.raiseToPower   = self.CreateButton("^",100,250,self.RaiseToPower)
-        # resetting of start values
-        self.a = 0                                                             
-        self.b = 0
-        self.result = 0
+running = True
 
-    def CreateLabel(self,text,x,y):
+class AdvWindow(QMainWindow):
+    def __init__(self):
+        super(AdvWindow,self).__init__()
+        self.setGeometry(200,200,300,300)
+
+        self.CreateInput(150, 100)
+
+        self.CreateLabel('0', 150, 150)
+
+        self.CreateButton('+', 150, 175, self.Power)
+        
+
+    def CreateButton(self, text, x, y, func):
+        newButton = QtWidgets.QPushButton(self)
+        newButton.setText(text)
+        newButton.move(x, y)
+        newButton.clicked.connect(func)
+        return newButton
+
+    def CreateLabel(self, text, x, y):
         newLabel = QtWidgets.QLabel(self)
         newLabel.setText(text)
-        newLabel.move(x,y)
+        newLabel.move(x, y)
         return newLabel
 
-    def CreateInputField(self,label,x,y):
-        self.CreateLabel(label,x-50,y)
+    def CreateInput(self, x, y):
         line = QLineEdit(self)
         line.move(x, y)
         line.resize(200, 32)
         return line
 
-    def CreateButton(self,text,x,y,fun):
+    def Power(self):
+        pass
+
+
+class CalcWindow(QMainWindow):
+    def __init__(self):
+        super(CalcWindow,self).__init__()
+        self.setGeometry(200,200,300,300)
+
+        self.inputA = self.CreateInput(50, 50)
+        self.inputB = self.CreateInput(50, 100)
+
+        self.result = self.CreateLabel('0', 150, 125)
+
+        self.Plus = self.CreateButton('+', 100, 150, self.Plus)
+        self.Minus = self.CreateButton('-', 100, 175, self.Minus)
+        self.Multi = self.CreateButton('*', 100, 200, self.Multi)
+        self.Div = self.CreateButton('/', 100, 225, self.Div)
+
+        self.OpenWindow = self.CreateButton('Adv Window', 100, 250, self.NewWindow)
+
+               
+
+        
+    def CreateButton(self, text, x, y, func):
         newButton = QtWidgets.QPushButton(self)
         newButton.setText(text)
-        newButton.move(x,y)
-        newButton.clicked.connect(fun)
+        newButton.move(x, y)
+        newButton.clicked.connect(func)
         return newButton
 
-    def UpdateInput(self):
-        try:
-            self.a =  float(self.aField.text())
-        except:
-            self.a = 0
-        try:
-            self.b =  float(self.bField.text())
-        except:
-            self.b = 0
+    def CreateLabel(self, text, x, y):
+        newLabel = QtWidgets.QLabel(self)
+        newLabel.setText(text)
+        newLabel.move(x, y)
+        return newLabel
 
-    def UpdateOutput(self):   
-        self.resultField.setText("Result : " + str(self.result))
+    def CreateInput(self, x, y):
+        line = QLineEdit(self)
+        line.move(x, y)
+        line.resize(200, 32)
+        return line
 
-    def RaiseToPower(self):
-        self.UpdateInput()
-        self.result =  self.a ** self.b
-        self.UpdateOutput()
+
     def Plus(self):
-        self.UpdateInput()
-        self.result =  self.a + self.b
-        self.UpdateOutput()
+        result = float(self.inputA.text()) + float(self.inputB.text())
+        self.result.setText(str(result))
+    
+    def Minus(self):
+        result = float(self.inputA.text()) - float(self.inputB.text())
+        self.result.setText(str(result))
+    
+    def Multi(self):
+        result = float(self.inputA.text()) * float(self.inputB.text())
+        self.result.setText(str(result))
+    
+    def Div(self):
+        result = float(self.inputA.text()) / float(self.inputB.text())
+        self.result.setText(str(result))
 
-    def Minus(self):     
-        self.UpdateInput()
-        self.result =  self.a - self.b
-        self.UpdateOutput()
+    def NewWindow(self):
+        app2 = QApplication(sys.argv)
+        window2 = AdvWindow()
+        window2.show()
+        sys.exit(app2.exec_())
 
-    def Multiply(self):     
-        self.UpdateInput()
-        self.result =  self.a * self.b
-        self.UpdateOutput()
 
-    def Divide(self):     
-        self.UpdateInput()
-        self.result =  self.a / self.b
-        self.UpdateOutput()
+
+
+
+
 
 app = QApplication(sys.argv)
-ourCalculator  = Calculator()
-ourCalculator.show()
+window  = CalcWindow()
+window.show()
 sys.exit(app.exec_())
+
+    
+
+
+    
+
+
